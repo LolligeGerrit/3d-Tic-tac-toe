@@ -16,6 +16,8 @@ let turn = "X";
 let game_timeout_time = 2000;
 let block_game = false;
 
+let game_state_text = document.getElementById("game_state_text");
+
 function init_game() {
     console.log("initializing game.")
     const loadtime_start = Date.now();
@@ -38,7 +40,6 @@ function init_game() {
             }
 
 
-
             // Update the game backend
             position = positions[square.id];
             game[position[0]][position[1]] = turn;
@@ -47,7 +48,24 @@ function init_game() {
             square.innerHTML = turn;
 
             // Check for a win
-            check_win(turn);
+            if (check_win(turn)) {
+                game_state_text.innerHTML = `${turn} wins!`;
+                console.log("Game ended: " + turn + " wins!")
+                block_game = true;
+                setTimeout(end_game, game_timeout_time);
+
+                return
+            }
+
+            // Check for a full board
+            if (check_full_board()) {
+                game_state_text.innerHTML = "Draw!";
+                console.log("Game ended: draw")
+                block_game = true;
+                setTimeout(end_game, game_timeout_time);
+
+                return
+            }
 
             // Switch turns
             if (turn === "X") {
@@ -55,6 +73,9 @@ function init_game() {
             } else {
                 turn = "X";
             }
+
+            //Update the current turn on the frontend
+            game_state_text.innerHTML = `Current turn: ${turn}`;
 
         })
     }
@@ -79,37 +100,25 @@ function check_win(turn) {
         game[0][2] === turn && game[1][1] === turn && game[2][0] === turn)  //Diagonal
         // End of checking all layers (vertical)
 
-
-
-
-
     {
-        alert(turn + " wins!");
-        console.log("Game ended: " + turn + " wins!")
-        block_game = true;
-        setTimeout(end_game, game_timeout_time);
-
-        return
+        return true
     }
+}
 
 
-    // Check if the board is full (draw)
+function check_full_board() {
     let empty_cells = 0
 
-    for (let i = 0; i < 3; i ++) {
-        for (let j = 0; j < 3; j ++) {
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
             if (game[i][j] === "") {
-                empty_cells ++;
+                empty_cells++;
             }
         }
     }
 
     if (empty_cells === 0) {
-        alert("Draw!");
-        console.log("Game ended: draw")
-        block_game = true;
-        setTimeout(end_game, game_timeout_time);
-
+        return true
     }
 }
 
@@ -127,4 +136,5 @@ function end_game() {
     turn = "X"
 
     block_game = false;
+    game_state_text.innerHTML = "Current turn: X";
 }
