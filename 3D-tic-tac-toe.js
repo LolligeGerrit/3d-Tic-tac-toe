@@ -23,11 +23,10 @@ function init3D(){
 	const sphere_geometry = new THREE.SphereGeometry( 0.5, 16, 16 );
 	
 	//Material for the shapes
-	const material_line = new THREE.MeshBasicMaterial( {} );
+	const material_line = new THREE.LineBasicMaterial( {transparent: true, opacity: 0.2} );
 	const material_sphere = new THREE.MeshBasicMaterial( { color: 0x0000ff} );
 
 	//Meshes for the shapes
-	
 	const sphere = new THREE.Mesh( sphere_geometry, material_sphere );
 
 	sphere_geometry.translate(-1, -0.25, 1);
