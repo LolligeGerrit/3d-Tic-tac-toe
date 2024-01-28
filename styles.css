@@ -1,0 +1,10 @@
+
+
+.view2D {
+    display: grid;
+    margin-left: 50%;
+    width: 100%;
+    position: absolute;
+}
+
+body { margin: 0; }
