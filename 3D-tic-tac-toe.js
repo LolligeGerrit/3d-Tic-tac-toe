@@ -1,16 +1,20 @@
 import * as THREE from 'three';
 import WebGL from 'three/addons/capabilities/WebGL.js';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-function init3D(){
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
+
+function init3D(){
 	//Set up the renderer and the camera
 	const renderer = new THREE.WebGLRenderer();
-	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.domElement.style.width = "50%";
+	
+	renderer.setSize( window.innerWidth/2,window.innerHeight);
 	document.body.appendChild( renderer.domElement );
+	
 	
 
 	const scene = new THREE.Scene();
-	const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+	const camera = new THREE.PerspectiveCamera( 75, renderer.domElement.width / renderer.domElement.height, 0.1, 1000 );
 	camera.position.z = 5;
 	camera.position.y = 2;
 	//Orbit controls for the camera
