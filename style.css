@@ -1,4 +1,4 @@
-html {
+* {
     font-family: "Arial Black", serif;
 }
 
@@ -6,6 +6,12 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+button {
+    border-radius: 5px;
+    background: whitesmoke;
+    border: 2px solid black;
 }
 
 .title {
@@ -29,10 +35,58 @@ body {
 .game_grid_item {
     border: 1px solid black;
     padding: 0;
-    text-align: center;
-    font-size: 8vw;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.game_state {
+.game_state_container {
     text-align: center;
+}
+
+.circle_0 {
+    width: 10%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    border: 2px solid white;
+
+    position: absolute;
+}
+
+.circle_1 {
+    width: 7%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    border: 2px solid white;
+
+    position: absolute;
+}
+
+.circle_2 {
+    width: 4%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    border: 2px solid white;
+
+    position: absolute;
+}
+
+.red {
+    background: #ff0000;
+}
+
+.blue {
+    background: #0048ff;
+}
+
+.restart_button_container {
+    margin-top: 10px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+#restart_button {
+    font-size: 1.2vw;
 }
