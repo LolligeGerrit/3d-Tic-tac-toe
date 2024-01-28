@@ -162,14 +162,16 @@ function check_win(turn) {
 
 function check_full_board() {
     let empty_cells = 0
-
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
-            if (game[0][i][j] === "") {
-                empty_cells++;
+    for (let board = 0; board < 3; board ++) {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (game[board][i][j] === "") {
+                    empty_cells++;
+                }
             }
         }
     }
+
 
     if (empty_cells === 0) {
         return true
