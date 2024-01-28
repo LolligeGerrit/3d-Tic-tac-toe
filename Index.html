@@ -5,36 +5,46 @@
     <title>Tic Tac Toe</title>
     <meta name="description" content="A small tic tac toe game.">
     <link rel="stylesheet" href="style.css">
+
 </head>
 
-<body onload="init_game()">
+<body>
 <div class="title">
     <h1 class>Tic Tac Toe</h1>
-    <a href="3D.html">3D version</a>
+
 </div>
 
 <div class="game_state_container">
     <h1 id="game_state_text">Current turn: red</h1>
 </div>
 
-<div class="game_grid_container">
-    <div class="game_grid_item" id="game_grid_square_1"></div>
-    <div class="game_grid_item" id="game_grid_square_2"></div>
-    <div class="game_grid_item" id="game_grid_square_3"></div>
-    <div class="game_grid_item" id="game_grid_square_4"></div>
-    <div class="game_grid_item" id="game_grid_square_5"></div>
-    <div class="game_grid_item" id="game_grid_square_6"></div>
-    <div class="game_grid_item" id="game_grid_square_7"></div>
-    <div class="game_grid_item" id="game_grid_square_8"></div>
-    <div class="game_grid_item" id="game_grid_square_9"></div>
+
+<div class="horizontal_stack">
+    <div class="game_grid_container">
+        <div class="game_grid_item" id="game_grid_square_1"></div>
+        <div class="game_grid_item" id="game_grid_square_2"></div>
+        <div class="game_grid_item" id="game_grid_square_3"></div>
+        <div class="game_grid_item" id="game_grid_square_4"></div>
+        <div class="game_grid_item" id="game_grid_square_5"></div>
+        <div class="game_grid_item" id="game_grid_square_6"></div>
+        <div class="game_grid_item" id="game_grid_square_7"></div>
+        <div class="game_grid_item" id="game_grid_square_8"></div>
+        <div class="game_grid_item" id="game_grid_square_9"></div>
+    </div>
+    <div id="container_3d_view">
+        <h2>3d view</h2>
+        <div id="container_3d"></div>
+    </div>
+
 </div>
 
+<h1>bjasd</h1>
 <div class="restart_button_container">
     <button id="restart_button">Restart game</button>
 </div>
 
 
-<script src="script.js"></script>
+<script type="module" src="js/script.js"></script>
 
 </body>
 </html>

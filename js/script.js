@@ -1,3 +1,8 @@
+import * as THREE from 'three';
+import WebGL from 'three/addons/capabilities/WebGL.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+
 let game = [[["", "", ""], ["", "", ""], ["", "", ""]]
     , [["", "", ""], ["", "", ""], ["", "", ""]]
     , [["", "", ""], ["", "", ""], ["", "", ""]]
@@ -19,9 +24,9 @@ let turn = "red";
 let game_running;
 
 let game_state_text = document.getElementById("game_state_text");
-let restart_button = document.getElementById("restart_button")
+let restart_button = document.getElementById("restart_button");
 
-function init_game() {
+function init_page() {
     console.log("initializing game.")
     const loadtime_start = Date.now();
 
@@ -56,6 +61,7 @@ function init_game() {
 
             // Update the game frontend
             square.innerHTML = `${square.innerHTML}<div class="circle_${current_layer} ${turn}"></div>`;
+            draw_turn(turn, positions_3d[`square_${current_layer * 9 + parseInt(square.id[square.id.length - 1])}`]);
 
             // Check for a win
             if (check_win(turn)) {
@@ -87,6 +93,8 @@ function init_game() {
 
         })
     }
+
+    init3D();
     game_running = true;
     console.log(`Done! (${Date.now() - loadtime_start}ms)`)
 }
@@ -206,3 +214,138 @@ function areEqual() {
     }
     return true;
 }
+
+
+
+// 3D
+const scene = new THREE.Scene();
+let container_3d = document.getElementById("container_3d");
+
+let positions_3d = {};
+
+let count = 1;
+for (let y = 0; y < 3; y++) {
+    for (let z = 0; z < 3; z++) {
+        for (let x = 0; x < 3; x++) {
+
+            positions_3d[`square_${count}`] = [x-1, y, z-1];
+            count++;
+        }
+    }
+}
+
+//Function to add a line to the scene
+function Addline(start_x, start_y, start_z, end_x, end_y, end_z) {
+    let points = [];
+    points.push( new THREE.Vector3( start_x, start_y, start_z ) );
+    points.push( new THREE.Vector3( end_x, end_y, end_z ) );
+    const line_geometry = new THREE.BufferGeometry().setFromPoints( points );
+    const material_line = new THREE.LineBasicMaterial( {transparent: true, opacity: 0.5, color: 0x000000} );
+    const line = new THREE.Line( line_geometry, material_line);
+
+    scene.add( line );
+}
+
+//Function to add a cube to the scene
+function AddCubeLine(x, y, z){
+    Addline(x, y, z, x+1, y, z);
+    Addline(x, y, z, x, y+1, z);
+    Addline(x, y, z, x, y, z+1);
+    Addline(x+1, y, z, x+1, y+1, z);
+    Addline(x+1, y, z, x+1, y, z+1);
+    Addline(x, y+1, z, x+1, y+1, z);
+    Addline(x, y+1, z, x, y+1, z+1);
+    Addline(x, y, z+1, x+1, y, z+1);
+    Addline(x, y, z+1, x, y+1, z+1);
+    Addline(x, y+1, z+1, x+1, y+1, z+1);
+    Addline(x+1, y, z+1, x+1, y+1, z+1);
+    Addline(x+1, y+1, z, x+1, y+1, z+1);
+    Addline(x+1, y+1, z, x+1, y+1, z+1);
+
+}
+
+
+function createBoard() {
+    //Loop to create the cube of cubes
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            for (let k = 0; k < 3; k++) {
+                // The offset is there to make the camera focus on the middle of the board
+                AddCubeLine(i-1.5, j-1.3, k-1.5);
+            }
+        }
+    }
+}
+
+function draw_turn(turn, position) {
+    // Materials
+    const material_red = new THREE.MeshBasicMaterial( { color: 0xff0000} );
+    const material_blue = new THREE.MeshBasicMaterial( { color: 0x0048ff} );
+
+    // Geometry
+    const sphere_geometry = new THREE.SphereGeometry( 0.5, 16, 16 );
+
+
+    let material_sphere;
+
+    if (turn === "red") {
+        material_sphere = material_red;
+    } else {
+        material_sphere = material_blue;
+    }
+
+    //Meshes for the shapes
+    const sphere = new THREE.Mesh( sphere_geometry, material_sphere );
+    sphere_geometry.translate(position[0], position[1] - 0.8, position[2]);
+
+    scene.add( sphere );
+
+}
+
+
+function init3D(){
+    //Set up the renderer and the camera
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize( container_3d.offsetWidth -3, container_3d.offsetHeight -3);
+
+    // Add the renderer to the container
+    container_3d.appendChild( renderer.domElement );
+
+    // Create the right scene background
+    scene.background = new THREE.Color( 0xffffff );
+
+    const camera = new THREE.PerspectiveCamera( 80, renderer.domElement.width / renderer.domElement.height, 0.1, 1000 );
+    camera.position.z = 3.5;
+    camera.position.y = 1;
+
+
+    //Orbit controls for the camera
+    const controls = new OrbitControls( camera, renderer.domElement );
+    //Geometry for the spheres representing the players
+
+
+
+    //Create the board
+    createBoard();
+
+    controls.update();
+
+    function animate() {
+        requestAnimationFrame( animate );
+        renderer.render( scene, camera );
+    }
+
+    if ( WebGL.isWebGLAvailable() ) {
+        // Initiate function or other initializations here
+
+        animate();
+
+    } else {
+
+        const warning = WebGL.getWebGLErrorMessage();
+        alert(warning);
+    }
+
+}
+
+init_page();
