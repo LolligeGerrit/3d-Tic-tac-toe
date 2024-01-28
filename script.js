@@ -84,7 +84,6 @@ function init_game() {
 
             //Update the current turn on the frontend
             game_state_text.innerHTML = `Current turn: ${turn}`;
-            console.info(game)
 
         })
     }
@@ -93,7 +92,6 @@ function init_game() {
 }
 
 function check_win(turn) {
-    const checkwin_loadtime_start = Date.now();
     // Check if there is a win position present
 
     for (let current_layer = 0; current_layer < 3; current_layer++) {
@@ -155,8 +153,6 @@ function check_win(turn) {
     ) {
         return true
     }
-
-    console.log(`Done! (${Date.now() - checkwin_loadtime_start}ms)`)
 }
 
 
@@ -179,7 +175,8 @@ function check_full_board() {
 }
 
 function reset_game() {
-    console.log("The game has ended, restarting.")
+    console.log("Restarting.")
+    const loadtime_restart = Date.now();
 
     // Update backend
     game = [[["", "", ""], ["", "", ""], ["", "", ""]]
@@ -196,6 +193,7 @@ function reset_game() {
     }
     game_state_text.innerHTML = `Current turn: ${turn}`;
 
+    console.log(`Done! (${Date.now() - loadtime_restart}ms)`)
 }
 
 function areEqual() {
