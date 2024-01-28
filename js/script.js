@@ -298,7 +298,11 @@ function draw_turn(turn, position) {
     const sphere = new THREE.Mesh( sphere_geometry, material_sphere );
     sphere_geometry.translate(position[0], position[1] - 0.8, position[2]);
 
+    sphere.castShadow = false; //default is false
+    sphere.receiveShadow = true; //default
+
     scene.add( sphere );
+
 
 }
 
@@ -307,6 +311,10 @@ function init3D(){
     //Set up the renderer and the camera
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize( container_3d.offsetWidth -3, container_3d.offsetHeight -3);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+
 
     // Add the renderer to the container
     container_3d.appendChild( renderer.domElement );
@@ -318,12 +326,37 @@ function init3D(){
     camera.position.z = 3.5;
     camera.position.y = 1;
 
-
     //Orbit controls for the camera
     const controls = new OrbitControls( camera, renderer.domElement );
-    //Geometry for the spheres representing the players
 
 
+    // Add shadows
+    const light = new THREE.DirectionalLight( 0xffffff, 1 );
+    light.position.set( 0, 5, -2 ); //default; light shining from top
+    light.castShadow = true; // default false
+
+    //Set up shadow properties for the light
+    light.shadow.mapSize.width = 512; // default
+    light.shadow.mapSize.height = 512; // default
+    light.shadow.camera.near = 0.5; // default
+    light.shadow.camera.far = 500; // default
+
+    draw_turn("red", [-2, 0, 0])
+
+    let plane_geometry = new THREE.PlaneGeometry( 5, 2, 32 );
+    let plane_material = new THREE.MeshBasicMaterial( {color: 0x2ff24f, side: THREE.DoubleSide} );
+    let plane = new THREE.Mesh( plane_geometry, plane_material );
+    plane.rotateX(Math.PI/2)
+    plane.position.y = -2;
+    plane.receiveShadow = true;
+    scene.add( plane );
+
+    scene.add( light );
+
+
+
+    const helper = new THREE.CameraHelper(light.shadow.camera)
+    scene.add(helper)
 
     //Create the board
     createBoard();
@@ -332,6 +365,7 @@ function init3D(){
 
     function animate() {
         requestAnimationFrame( animate );
+
         renderer.render( scene, camera );
     }
 
