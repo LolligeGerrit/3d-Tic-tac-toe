@@ -26,6 +26,8 @@ let game_running;
 let game_state_text = document.getElementById("game_state_text");
 let restart_button = document.getElementById("restart_button");
 
+let spheres = [];
+
 function init_page() {
     console.log("initializing game.")
     const loadtime_start = Date.now();
@@ -201,6 +203,15 @@ function reset_game() {
     }
     game_state_text.innerHTML = `Current turn: ${turn}`;
 
+    // Remove the spheres
+    for (let i = 0; i < spheres.length; i++) {
+
+        spheres[i].material.dispose();
+        spheres[i].geometry.dispose();
+
+        scene.remove(spheres[i]);
+    }
+    spheres = [];
     console.log(`Done! (${Date.now() - loadtime_restart}ms)`)
 }
 
@@ -301,6 +312,8 @@ function draw_turn(turn, position) {
     sphere.castShadow = true; //default is false
     sphere.receiveShadow = true; //default
 
+    spheres.push(sphere);
+    console.log(spheres);
     scene.add( sphere );
 
 
