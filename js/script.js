@@ -244,7 +244,7 @@ function Addline(start_x, start_y, start_z, end_x, end_y, end_z) {
     points.push( new THREE.Vector3( start_x, start_y, start_z ) );
     points.push( new THREE.Vector3( end_x, end_y, end_z ) );
     const line_geometry = new THREE.BufferGeometry().setFromPoints( points );
-    const material_line = new THREE.LineBasicMaterial( {transparent: true, opacity: 0.5, color: 0x000000} );
+    const material_line = new THREE.LineBasicMaterial( {transparent: true, opacity: 0.3, color: 0xffffff} );
     const line = new THREE.Line( line_geometry, material_line);
 
     scene.add( line );
@@ -283,14 +283,12 @@ function createBoard() {
 
 function draw_turn(turn, position) {
     // Materials
-    const material_red = new THREE.MeshStandardMaterial({transparent: false, color: 0xff0000, envMap: reflect, });
-    material_red.reflectivity = 0.1;
+    const material_red = new THREE.MeshStandardMaterial({color: 0xff0000});
 
-    const material_blue = new THREE.MeshBasicMaterial( { color: 0x0048ff} );
+    const material_blue = new THREE.MeshStandardMaterial( {transparent: false, color: 0x0048ff} );
 
     // Geometry
     const sphere_geometry = new THREE.SphereGeometry( 0.5, 16, 16 );
-
 
     let material_sphere;
 
@@ -305,7 +303,7 @@ function draw_turn(turn, position) {
     sphere_geometry.translate(position[0], position[1] - 0.8, position[2]);
 
     sphere.castShadow = true; //default is false
-    sphere.receiveShadow = false; //default
+    sphere.receiveShadow = true; //default
 
     scene.add( sphere );
 
@@ -328,7 +326,7 @@ function init3D(){
     container_3d.appendChild( renderer.domElement );
 
     // Create the right scene background
-    scene.background = new THREE.Color( 0xfffffff    );
+    scene.background = new THREE.Color( "black"   );
 
     const camera = new THREE.PerspectiveCamera( 80, renderer.domElement.width / renderer.domElement.height, 0.1, 1000 );
     camera.position.z = 3.5;
@@ -339,31 +337,13 @@ function init3D(){
 
 
     const color = 0xFFFFFF;
-    const intensity = 5;
-    const width = 12;
-    const height = 4;
+    const intensity = 3;
+    const width = 10;
+    const height = 10;
     const light = new THREE.RectAreaLight( color, intensity, width, height );
-    light.position.set( 0, 4, 0 );
-    light.rotation.x = THREE.MathUtils.degToRad( - 90 );
+    light.position.set( 5, 5, 0);
+    light.rotation.x = THREE.MathUtils.degToRad( -45 );
     scene.add( light );
-
-    const helper = new RectAreaLightHelper( light );
-    light.add( helper );
-
-
-    draw_turn("red", [-2, 0, 0])
-
-    let plane_geometry = new THREE.PlaneGeometry( 5, 5, 32 );
-    let plane_material = new THREE.MeshStandardMaterial( {color: 0x00000, side: DoubleSide} );
-    let plane = new THREE.Mesh( plane_geometry, plane_material );
-    plane.rotateX(Math.PI/2)
-    plane.position.y = -2;
-    plane.receiveShadow = true;
-    plane.castShadow = true;
-    scene.add( plane );
-
-    //scene.add( light );
-
 
 
     //Create the board
