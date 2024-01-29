@@ -345,14 +345,24 @@ function init3D(){
     const controls = new OrbitControls( camera, renderer.domElement );
 
 
+    // Light properties
     const color = 0xFFFFFF;
-    const intensity = 3;
     const width = 10;
     const height = 10;
-    const light = new THREE.RectAreaLight( color, intensity, width, height );
-    light.position.set( 5, 5, 0);
+
+    // Main light (top left)
+    const light = new THREE.RectAreaLight( color, 2, width, height );
+    light.position.set(5, 5, 0);
     light.rotation.x = THREE.MathUtils.degToRad( -45 );
+
+    // Secondary light (bottom)
+    const light_2 = new THREE.RectAreaLight( color, 0.2, width, height );
+    light_2.position.set(0, -5, 0)
+    light_2.rotation.x = THREE.MathUtils.degToRad( 90 );
+
+    // Add the lights to the scene
     scene.add( light );
+    scene.add( light_2 )
 
 
     //Create the board
