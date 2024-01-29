@@ -1,6 +1,10 @@
 import * as THREE from 'three';
 import WebGL from 'three/addons/capabilities/WebGL.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
+import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
+import {frontFacing, reflect, refract} from "three/nodes";
+import {DoubleSide} from "three";
 
 
 let game = [[["", "", ""], ["", "", ""], ["", "", ""]]
@@ -279,7 +283,9 @@ function createBoard() {
 
 function draw_turn(turn, position) {
     // Materials
-    const material_red = new THREE.MeshBasicMaterial( { color: 0xff0000} );
+    const material_red = new THREE.MeshStandardMaterial({transparent: false, color: 0xff0000, envMap: reflect, });
+    material_red.reflectivity = 0.1;
+
     const material_blue = new THREE.MeshBasicMaterial( { color: 0x0048ff} );
 
     // Geometry
@@ -298,8 +304,8 @@ function draw_turn(turn, position) {
     const sphere = new THREE.Mesh( sphere_geometry, material_sphere );
     sphere_geometry.translate(position[0], position[1] - 0.8, position[2]);
 
-    sphere.castShadow = false; //default is false
-    sphere.receiveShadow = true; //default
+    sphere.castShadow = true; //default is false
+    sphere.receiveShadow = false; //default
 
     scene.add( sphere );
 
@@ -314,13 +320,15 @@ function init3D(){
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
+    RectAreaLightUniformsLib.init();
+
 
 
     // Add the renderer to the container
     container_3d.appendChild( renderer.domElement );
 
     // Create the right scene background
-    scene.background = new THREE.Color( 0xffffff );
+    scene.background = new THREE.Color( 0xfffffff    );
 
     const camera = new THREE.PerspectiveCamera( 80, renderer.domElement.width / renderer.domElement.height, 0.1, 1000 );
     camera.position.z = 3.5;
@@ -330,33 +338,33 @@ function init3D(){
     const controls = new OrbitControls( camera, renderer.domElement );
 
 
-    // Add shadows
-    const light = new THREE.DirectionalLight( 0xffffff, 1 );
-    light.position.set( 0, 5, -2 ); //default; light shining from top
-    light.castShadow = true; // default false
+    const color = 0xFFFFFF;
+    const intensity = 5;
+    const width = 12;
+    const height = 4;
+    const light = new THREE.RectAreaLight( color, intensity, width, height );
+    light.position.set( 0, 4, 0 );
+    light.rotation.x = THREE.MathUtils.degToRad( - 90 );
+    scene.add( light );
 
-    //Set up shadow properties for the light
-    light.shadow.mapSize.width = 512; // default
-    light.shadow.mapSize.height = 512; // default
-    light.shadow.camera.near = 0.5; // default
-    light.shadow.camera.far = 500; // default
+    const helper = new RectAreaLightHelper( light );
+    light.add( helper );
+
 
     draw_turn("red", [-2, 0, 0])
 
-    let plane_geometry = new THREE.PlaneGeometry( 5, 2, 32 );
-    let plane_material = new THREE.MeshBasicMaterial( {color: 0x2ff24f, side: THREE.DoubleSide} );
+    let plane_geometry = new THREE.PlaneGeometry( 5, 5, 32 );
+    let plane_material = new THREE.MeshStandardMaterial( {color: 0x00000, side: DoubleSide} );
     let plane = new THREE.Mesh( plane_geometry, plane_material );
     plane.rotateX(Math.PI/2)
     plane.position.y = -2;
     plane.receiveShadow = true;
+    plane.castShadow = true;
     scene.add( plane );
 
-    scene.add( light );
+    //scene.add( light );
 
 
-
-    const helper = new THREE.CameraHelper(light.shadow.camera)
-    scene.add(helper)
 
     //Create the board
     createBoard();
@@ -365,7 +373,7 @@ function init3D(){
 
     function animate() {
         requestAnimationFrame( animate );
-
+        camera.updateProjectionMatrix();
         renderer.render( scene, camera );
     }
 
