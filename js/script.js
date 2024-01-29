@@ -251,7 +251,7 @@ function Addline(start_x, start_y, start_z, end_x, end_y, end_z) {
     points.push( new THREE.Vector3( start_x, start_y, start_z ) );
     points.push( new THREE.Vector3( end_x, end_y, end_z ) );
     const line_geometry = new THREE.BufferGeometry().setFromPoints( points );
-    const material_line = new THREE.LineBasicMaterial( {transparent: true, opacity: 0.3, color: 0xffffff} );
+    const material_line = new THREE.LineBasicMaterial( {transparent: true, opacity: 0.3, color: 0x000000} );
     const line = new THREE.Line( line_geometry, material_line);
 
     scene.add( line );
@@ -335,7 +335,7 @@ function init3D(){
     container_3d.appendChild( renderer.domElement );
 
     // Create the right scene background
-    scene.background = new THREE.Color( "black"   );
+    scene.background = new THREE.Color( "white"   );
 
     const camera = new THREE.PerspectiveCamera( 80, renderer.domElement.width / renderer.domElement.height, 0.1, 1000 );
     camera.position.z = 3.5;
