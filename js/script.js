@@ -2,10 +2,6 @@ import * as THREE from 'three';
 import WebGL from 'three/addons/capabilities/WebGL.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
-import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
-import {frontFacing, reflect, refract} from "three/nodes";
-import {DoubleSide} from "three";
-
 
 let game = [[["", "", ""], ["", "", ""], ["", "", ""]]
     , [["", "", ""], ["", "", ""], ["", "", ""]]
@@ -103,7 +99,7 @@ function init_page() {
     console.log(`Done! (${Date.now() - loadtime_start}ms)`)
 }
 
-function check_win(turn) {
+function check_win() {
     // Check if there is a win position present
 
     for (let current_layer = 0; current_layer < 3; current_layer++) {
