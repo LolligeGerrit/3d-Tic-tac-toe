@@ -16,7 +16,7 @@ button {
 
 .title {
     text-align: center;
-    font-size: clamp(16px, 3vw, 32px);
+    font-size: clamp(16px, 1.5vw, 32px);
     padding: 0 0 0 0;
 }
 
@@ -47,7 +47,7 @@ button {
 
 .game_state_container {
     text-align: center;
-    font-size: clamp(10px, 2vw, 25px);
+    font-size: clamp(10px, 1vw, 25px);
 }
 
 .circle_0 {
@@ -81,8 +81,16 @@ button {
     background: #ff0000;
 }
 
+.text_red {
+    color: #ff0000;
+}
+
 .blue {
     background: #0048ff;
+}
+
+.text_blue {
+    color: #0048ff;
 }
 
 .restart_button_container {
@@ -93,12 +101,12 @@ button {
 }
 
 #restart_button {
-    font-size: clamp(16px, 3vw, 32px);
+    font-size: clamp(16px, 1vw, 32px);
 }
 
 .horizontal_stack {
     padding: 20px;
-    width: 100%;
+    width: 98vw;
     height: 400px;
     float: left;
     clear: none;
@@ -107,15 +115,9 @@ button {
 
 #container_3d {
     height: 400px;
-    width: calc(100% - 460px);
-    float: left;
-    margin-left: 20px;
-    margin-right: 20px;
-}
+    overflow: hidden;
 
-#container_3d_view {
-    text-align: center;
-    height: 100%;
-    width: 100%;
+
+    margin-right: 20px;
 
 }

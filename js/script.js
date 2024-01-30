@@ -91,7 +91,7 @@ function init_page() {
             }
 
             //Update the current turn on the frontend
-            game_state_text.innerHTML = `Current turn: ${turn}`;
+            game_state_text.innerHTML = `Current turn: <span class="text_${turn}">${turn}</span>`
 
         })
     }
@@ -201,7 +201,7 @@ function reset_game() {
         let square = document.getElementById(`game_grid_square_${i}`);
         square.innerHTML = "";
     }
-    game_state_text.innerHTML = `Current turn: ${turn}`;
+    game_state_text.innerHTML = `Current turn: <span class="text_${turn}">${turn}</span>`;
 
     // Remove the spheres
     for (let i = 0; i < spheres.length; i++) {
