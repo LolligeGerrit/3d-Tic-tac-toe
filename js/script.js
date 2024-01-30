@@ -313,9 +313,7 @@ function draw_turn(turn, position) {
     sphere.receiveShadow = true; //default
 
     spheres.push(sphere);
-    console.log(spheres);
     scene.add( sphere );
-
 
 }
 
@@ -372,7 +370,6 @@ function init3D(){
 
     function animate() {
         requestAnimationFrame( animate );
-        camera.updateProjectionMatrix();
         renderer.render( scene, camera );
     }
 
@@ -382,7 +379,7 @@ function init3D(){
         animate();
 
     } else {
-
+        document.getElementById("container_3d").innerHTML = "3D view can't be loaded, webGL is not available."
         const warning = WebGL.getWebGLErrorMessage();
         alert(warning);
     }
