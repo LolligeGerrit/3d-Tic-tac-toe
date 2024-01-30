@@ -26,6 +26,8 @@ let game_running;
 let game_state_text = document.getElementById("game_state_text");
 let restart_button = document.getElementById("restart_button");
 
+let first_move = true;
+
 let spheres = [];
 
 function init_page() {
@@ -56,10 +58,17 @@ function init_page() {
                 }
             }
 
-
             // Update the game backend
             let position = positions[square.id];
-            game[current_layer][position[0]][position[1]] = turn;
+
+            if (first_move && square.id === "game_grid_square_5") {
+                alert("That move is blocked")
+                return;
+            } else {
+                game[current_layer][position[0]][position[1]] = turn;
+                first_move = false;
+            }
+
 
             // Update the game frontend
             square.innerHTML = `${square.innerHTML}<div class="circle_${current_layer} ${turn}"></div>`;
@@ -195,6 +204,7 @@ function reset_game() {
 
     ];
     turn = "red"
+    first_move = true;
 
     // Update frontend
     for (let i = 1; i < 10; i++) {
