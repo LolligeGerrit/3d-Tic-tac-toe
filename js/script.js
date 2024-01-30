@@ -67,7 +67,7 @@ function init_page() {
 
             // Check for a win
             if (check_win(turn)) {
-                game_state_text.innerHTML = `${turn} wins!`;
+                game_state_text.innerHTML = `<span class="text_${turn}">${turn}</span> wins!`;
                 console.log("Game ended: " + turn + " wins!")
                 game_running = false;
 
