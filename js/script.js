@@ -339,9 +339,17 @@ function init3D(){
     camera.position.z = 3.5;
     camera.position.y = 1;
 
-    //Orbit controls for the camera
+    // Orbit controls for the camera
     const controls = new OrbitControls( camera, renderer.domElement );
 
+    // Restrict the camera movement
+    // zoom
+    controls.maxDistance = 7;
+    controls.minDistance = 3;
+    // damping (smoothing motion when rotating)
+    controls.enableDamping = true;
+    // panning
+    controls.enablePan = false;
 
     // Light properties
     const color = 0xFFFFFF;
@@ -366,11 +374,12 @@ function init3D(){
     //Create the board
     createBoard();
 
-    controls.update();
 
     function animate() {
         requestAnimationFrame( animate );
         renderer.render( scene, camera );
+        controls.update();
+
     }
 
     if ( WebGL.isWebGLAvailable() ) {
