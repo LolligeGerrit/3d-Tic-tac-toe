@@ -93,7 +93,7 @@ button {
     color: #0048ff;
 }
 
-.restart_button_container {
+.button_container {
     margin-top: 10px;
     display: flex;
     align-content: center;
@@ -101,6 +101,10 @@ button {
 }
 
 #restart_button {
+    font-size: clamp(16px, 1vw, 32px);
+}
+
+#undo_button {
     font-size: clamp(16px, 1vw, 32px);
 }
 

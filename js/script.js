@@ -23,8 +23,11 @@ let positions = {
 let turn = "red";
 let game_running;
 
+let moves = [];
+
 let game_state_text = document.getElementById("game_state_text");
 let restart_button = document.getElementById("restart_button");
+let undo_button = document.getElementById("undo_button");
 
 let first_move = true;
 
@@ -40,6 +43,48 @@ function init_page() {
         game_running = true;
     });
 
+    // Add event listener to the undo button
+    undo_button.addEventListener('click', function() {
+        if (moves.length === 0 || !game_running) {
+            return;
+        }
+
+        let last_move = moves.pop();
+        let last_move_square_key = "";
+
+        // Find the square key
+        for (let key in positions) {
+            if (positions[key][0] === last_move[1] && positions[key][1]=== last_move[2]) {
+                last_move_square_key = key;
+                break;
+            }
+        }
+
+        // Update the game backend
+        game[last_move[0]][last_move[1]][last_move[2]] = "";
+
+        // Switch turns
+        if (turn === "red") {
+            turn = "blue";
+        } else {
+            turn = "red";
+        }
+
+        // Update the game frontend
+        // 2D update
+        let square = document.getElementById(last_move_square_key);
+        square.innerHTML = "";
+
+        // 3D update
+        spheres[spheres.length - 1].material.dispose();
+        spheres[spheres.length - 1].geometry.dispose();
+
+        scene.remove(spheres[spheres.length - 1]);
+        spheres.pop();
+
+        game_state_text.innerHTML = `Current turn: <span class="text_${turn}">${turn}</span>`;
+    });
+
     for (let i = 1; i < 10; i++) {
         let square = document.getElementById(`game_grid_square_${i}`);
 
@@ -53,7 +98,7 @@ function init_page() {
             while (game[current_layer][positions[square.id][0]][positions[square.id][1]] !== "") {
                 current_layer++;
                 if (current_layer === 3) {
-                    alert("This cell is full! Please choose another one.")
+                    alert("This cell is full! Please choose another one.");
                     return;
                 }
             }
@@ -62,10 +107,11 @@ function init_page() {
             let position = positions[square.id];
 
             if (first_move && square.id === "game_grid_square_5") {
-                alert("That move is blocked")
+                alert("That move is blocked");
                 return;
             } else {
                 game[current_layer][position[0]][position[1]] = turn;
+                moves.push([current_layer, position[0], position[1]]);
                 first_move = false;
             }
 
@@ -77,7 +123,7 @@ function init_page() {
             // Check for a win
             if (check_win(turn)) {
                 game_state_text.innerHTML = `<span class="text_${turn}">${turn}</span> wins!`;
-                console.log("Game ended: " + turn + " wins!")
+                console.log("Game ended: " + turn + " wins!");
                 game_running = false;
 
                 return
@@ -205,6 +251,7 @@ function reset_game() {
     ];
     turn = "red"
     first_move = true;
+    moves = [];
 
     // Update frontend
     for (let i = 1; i < 10; i++) {
