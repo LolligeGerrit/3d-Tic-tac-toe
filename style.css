@@ -117,6 +117,15 @@ button {
 
 }
 
+.horizontal_stack_small {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    align-content: center;
+ }
+
 #container_3d {
     height: 400px;
     overflow: hidden;
