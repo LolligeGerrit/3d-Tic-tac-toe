@@ -9,6 +9,7 @@ body {
 }
 
 button {
+    font-size: clamp(16px, 1vw, 32px);
     border-radius: 5px;
     background: whitesmoke;
     border: 2px solid black;
@@ -25,15 +26,10 @@ button {
     grid-template-columns: 33.3% 33.3% 33.3%;
     grid-template-rows: 33.3% 33.3% 33.3%;
 
-
     width: 400px;
     height: 400px;
 
-
     background: whitesmoke;
-    margin: 0 auto;
-
-    float: left;
 }
 
 .game_grid_item {
@@ -100,37 +96,16 @@ button {
     justify-content: center;
 }
 
-#restart_button {
-    font-size: clamp(16px, 1vw, 32px);
-}
-
-#undo_button {
-    font-size: clamp(16px, 1vw, 32px);
-}
-
 .horizontal_stack {
-    padding: 20px;
-    width: 98vw;
-    height: 400px;
-    float: left;
-    clear: none;
-
-}
-
-.horizontal_stack_small {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 30px;
     align-content: center;
- }
+}
 
 #container_3d {
     height: 400px;
-    overflow: hidden;
-
-
-    margin-right: 20px;
-
+    width: 50vw;
 }
