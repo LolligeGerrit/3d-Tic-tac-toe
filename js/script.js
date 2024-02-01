@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import WebGL from 'three/addons/capabilities/WebGL.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {RectAreaLightUniformsLib} from 'three/addons/lights/RectAreaLightUniformsLib.js';
 
 let game = [[["", "", ""], ["", "", ""], ["", "", ""]]
     , [["", "", ""], ["", "", ""], ["", "", ""]]
@@ -44,7 +44,7 @@ function init_page() {
     });
 
     // Add event listener to the undo button
-    undo_button.addEventListener('click', function() {
+    undo_button.addEventListener('click', function () {
         if (moves.length === 0 || !game_running) {
             return;
         }
@@ -54,7 +54,7 @@ function init_page() {
 
         // Find the square key
         for (let key in positions) {
-            if (positions[key][0] === last_move[1] && positions[key][1]=== last_move[2]) {
+            if (positions[key][0] === last_move[1] && positions[key][1] === last_move[2]) {
                 last_move_square_key = key;
                 break;
             }
@@ -223,7 +223,7 @@ function check_win() {
 
 function check_full_board() {
     let empty_cells = 0
-    for (let board = 0; board < 3; board ++) {
+    for (let board = 0; board < 3; board++) {
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 if (game[board][i][j] === "") {
@@ -284,7 +284,6 @@ function areEqual() {
 }
 
 
-
 // 3D
 const scene = new THREE.Scene();
 let container_3d = document.getElementById("container_3d");
@@ -296,7 +295,7 @@ for (let y = 0; y < 3; y++) {
     for (let z = 0; z < 3; z++) {
         for (let x = 0; x < 3; x++) {
 
-            positions_3d[`square_${count}`] = [x-1, y, z-1];
+            positions_3d[`square_${count}`] = [x - 1, y, z - 1];
             count++;
         }
     }
@@ -305,30 +304,30 @@ for (let y = 0; y < 3; y++) {
 //Function to add a line to the scene
 function Addline(start_x, start_y, start_z, end_x, end_y, end_z) {
     let points = [];
-    points.push( new THREE.Vector3( start_x, start_y, start_z ) );
-    points.push( new THREE.Vector3( end_x, end_y, end_z ) );
-    const line_geometry = new THREE.BufferGeometry().setFromPoints( points );
-    const material_line = new THREE.LineBasicMaterial( {transparent: true, opacity: 0.3, color: 0x000000} );
-    const line = new THREE.Line( line_geometry, material_line);
+    points.push(new THREE.Vector3(start_x, start_y, start_z));
+    points.push(new THREE.Vector3(end_x, end_y, end_z));
+    const line_geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const material_line = new THREE.LineBasicMaterial({transparent: true, opacity: 0.3, color: 0x000000});
+    const line = new THREE.Line(line_geometry, material_line);
 
-    scene.add( line );
+    scene.add(line);
 }
 
 //Function to add a cube to the scene
-function AddCubeLine(x, y, z){
-    Addline(x, y, z, x+1, y, z);
-    Addline(x, y, z, x, y+1, z);
-    Addline(x, y, z, x, y, z+1);
-    Addline(x+1, y, z, x+1, y+1, z);
-    Addline(x+1, y, z, x+1, y, z+1);
-    Addline(x, y+1, z, x+1, y+1, z);
-    Addline(x, y+1, z, x, y+1, z+1);
-    Addline(x, y, z+1, x+1, y, z+1);
-    Addline(x, y, z+1, x, y+1, z+1);
-    Addline(x, y+1, z+1, x+1, y+1, z+1);
-    Addline(x+1, y, z+1, x+1, y+1, z+1);
-    Addline(x+1, y+1, z, x+1, y+1, z+1);
-    Addline(x+1, y+1, z, x+1, y+1, z+1);
+function AddCubeLine(x, y, z) {
+    Addline(x, y, z, x + 1, y, z);
+    Addline(x, y, z, x, y + 1, z);
+    Addline(x, y, z, x, y, z + 1);
+    Addline(x + 1, y, z, x + 1, y + 1, z);
+    Addline(x + 1, y, z, x + 1, y, z + 1);
+    Addline(x, y + 1, z, x + 1, y + 1, z);
+    Addline(x, y + 1, z, x, y + 1, z + 1);
+    Addline(x, y, z + 1, x + 1, y, z + 1);
+    Addline(x, y, z + 1, x, y + 1, z + 1);
+    Addline(x, y + 1, z + 1, x + 1, y + 1, z + 1);
+    Addline(x + 1, y, z + 1, x + 1, y + 1, z + 1);
+    Addline(x + 1, y + 1, z, x + 1, y + 1, z + 1);
+    Addline(x + 1, y + 1, z, x + 1, y + 1, z + 1);
 
 }
 
@@ -339,7 +338,7 @@ function createBoard() {
         for (let j = 0; j < 3; j++) {
             for (let k = 0; k < 3; k++) {
                 // The offset is there to make the camera focus on the middle of the board
-                AddCubeLine(i-1.5, j-1.3, k-1.5);
+                AddCubeLine(i - 1.5, j - 1.3, k - 1.5);
             }
         }
     }
@@ -349,10 +348,10 @@ function draw_turn(turn, position) {
     // Materials
     const material_red = new THREE.MeshStandardMaterial({color: 0xff0000});
 
-    const material_blue = new THREE.MeshStandardMaterial( {transparent: false, color: 0x0048ff} );
+    const material_blue = new THREE.MeshStandardMaterial({transparent: false, color: 0x0048ff});
 
     // Geometry
-    const sphere_geometry = new THREE.SphereGeometry( 0.5, 16, 16 );
+    const sphere_geometry = new THREE.SphereGeometry(0.5, 16, 16);
 
     let material_sphere;
 
@@ -363,41 +362,40 @@ function draw_turn(turn, position) {
     }
 
     //Meshes for the shapes
-    const sphere = new THREE.Mesh( sphere_geometry, material_sphere );
+    const sphere = new THREE.Mesh(sphere_geometry, material_sphere);
     sphere_geometry.translate(position[0], position[1] - 0.8, position[2]);
 
     sphere.castShadow = true; //default is false
     sphere.receiveShadow = true; //default
 
     spheres.push(sphere);
-    scene.add( sphere );
+    scene.add(sphere);
 
 }
 
 
-function init3D(){
+function init3D() {
     //Set up the renderer and the camera
     const renderer = new THREE.WebGLRenderer();
-    renderer.setSize( container_3d.offsetWidth -3, container_3d.offsetHeight -3);
+    renderer.setSize(container_3d.offsetWidth - 3, container_3d.offsetHeight - 3);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     RectAreaLightUniformsLib.init();
 
 
-
     // Add the renderer to the container
-    container_3d.appendChild( renderer.domElement );
+    container_3d.appendChild(renderer.domElement);
 
     // Create the right scene background
-    scene.background = new THREE.Color( "white"   );
+    scene.background = new THREE.Color("white");
 
-    const camera = new THREE.PerspectiveCamera( 80, renderer.domElement.width / renderer.domElement.height, 0.1, 1000 );
+    const camera = new THREE.PerspectiveCamera(80, renderer.domElement.width / renderer.domElement.height, 0.1, 1000);
     camera.position.z = 3.5;
     camera.position.y = 1;
 
     // Orbit controls for the camera
-    const controls = new OrbitControls( camera, renderer.domElement );
+    const controls = new OrbitControls(camera, renderer.domElement);
 
     // Restrict the camera movement
     // zoom
@@ -414,18 +412,18 @@ function init3D(){
     const height = 10;
 
     // Main light (top left)
-    const light = new THREE.RectAreaLight( color, 2, width, height );
+    const light = new THREE.RectAreaLight(color, 2, width, height);
     light.position.set(5, 5, 0);
-    light.rotation.x = THREE.MathUtils.degToRad( -45 );
+    light.rotation.x = THREE.MathUtils.degToRad(-45);
 
     // Secondary light (bottom)
-    const light_2 = new THREE.RectAreaLight( color, 0.2, width, height );
+    const light_2 = new THREE.RectAreaLight(color, 0.2, width, height);
     light_2.position.set(0, -5, 0)
-    light_2.rotation.x = THREE.MathUtils.degToRad( 90 );
+    light_2.rotation.x = THREE.MathUtils.degToRad(90);
 
     // Add the lights to the scene
-    scene.add( light );
-    scene.add( light_2 )
+    scene.add(light);
+    scene.add(light_2)
 
 
     //Create the board
@@ -433,13 +431,13 @@ function init3D(){
 
 
     function animate() {
-        requestAnimationFrame( animate );
-        renderer.render( scene, camera );
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
         controls.update();
 
     }
 
-    if ( WebGL.isWebGLAvailable() ) {
+    if (WebGL.isWebGLAvailable()) {
         // Initiate function or other initializations here
 
         animate();
